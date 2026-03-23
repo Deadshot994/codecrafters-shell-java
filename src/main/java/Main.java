@@ -59,7 +59,7 @@ public class Main {
                             }
 
                             ProcessBuilder pb = new ProcessBuilder(cmd);
-                            pb.directory(new File(currentDir);
+                            pb.directory(new File(currentDir));
                             pb.inheritIO();
 
                             Process p = pb.start();
