@@ -1,8 +1,5 @@
-import java.sql.SQLOutput;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.io.*;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -39,9 +36,28 @@ public class Main {
                 System.out.println(input + ": command not found");
             }
         }
+    }
 
+    public static String tye(String command) {
+        String commands[] = {"exit", "echo", "type"};
+        String path_commands = System.getenv("PATH");
+        String path_command[] = path_commands.split(":");
 
+        boolean isTrue = false;
 
+        for(int i = 0; i<commands.length; i++) {
+            if(Objects.equals(commands[i], command)) {
+                return command + "is a shell builtin";
+            }
+        }
 
+        for(int i = 0; i<path_command.length; i++) {
+            File file = new File(path_command[i], command);
+            if(file.exists() && file.canExecute()) {
+                return command + " is " + file.getAbsolutePath();
+            }
+        }
+
+        return command + ": not found";
     }
 }
