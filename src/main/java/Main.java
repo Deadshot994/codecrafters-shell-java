@@ -29,6 +29,10 @@ public class Main {
             else if (command.equals("cd")) {
                 File dir;
 
+                if(result.equals("~")) {
+                    String home = System.getenv("HOME");
+                    dir = new File(home);
+                }
                 if(result.startsWith("/")) {
                     // absolute path
                     dir = new File(result);
