@@ -24,6 +24,9 @@ public class Main {
             else if (command.equals("type")) {
                 System.out.println(type(result));
             }
+            else if (command.equals("pwd")) {
+                System.out.println(System.getProperty("user.dir"));
+            }
             else {
                 String path_commands = System.getenv("PATH");
                 String[] path_command = path_commands.split(File.pathSeparator);
