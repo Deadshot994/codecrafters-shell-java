@@ -33,7 +33,7 @@ public class Main {
         scanner.close();
     }
 
-    public static String tye(String command) {
+    public static String type(String command) {
         String commands[] = {"exit", "echo", "type"};
         String path_commands = System.getenv("PATH");
         String path_command[] = path_commands.split(":");
