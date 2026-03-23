@@ -33,7 +33,7 @@ public class Main {
                     String home = System.getenv("HOME");
                     dir = new File(home);
                 }
-                if(result.startsWith("/")) {
+                else if(result.startsWith("/")) {
                     // absolute path
                     dir = new File(result);
                 }
