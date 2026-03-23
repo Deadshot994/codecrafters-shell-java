@@ -6,6 +6,8 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         boolean xyz = true;
+        String currentDir = System.getProperty("user.dir");
+
         while (xyz) {
             System.out.print("$ ");
             String input = scanner.nextLine();
@@ -24,8 +26,18 @@ public class Main {
             else if (command.equals("type")) {
                 System.out.println(type(result));
             }
+            else if (command.equals("cd")) {
+                File dir = new File(result);
+
+                if(dir.isAbsolute() && dir.exists() && dir.isDirectory()) {
+                    currentDir = dir.getAbsolutePath();
+                }
+                else {
+                    System.out.println("cd: " + result + ": No such file or directory");
+                }
+            }
             else if (command.equals("pwd")) {
-                System.out.println(System.getProperty("user.dir"));
+                System.out.println(currentDir);
             }
             else {
                 String path_commands = System.getenv("PATH");
@@ -47,7 +59,7 @@ public class Main {
                             }
 
                             ProcessBuilder pb = new ProcessBuilder(cmd);
-                            pb.directory(new File(path_command[i]));
+                            pb.directory(new File(currentDir);
                             pb.inheritIO();
 
                             Process p = pb.start();
