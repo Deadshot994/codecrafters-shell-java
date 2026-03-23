@@ -42,7 +42,7 @@ public class Main {
 
         for(int i = 0; i<commands.length; i++) {
             if(Objects.equals(commands[i], command)) {
-                return command + "is a shell builtin";
+                return command + " is a shell builtin";
             }
         }
 
