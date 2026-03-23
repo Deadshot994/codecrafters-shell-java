@@ -29,7 +29,7 @@ public class Main {
                 String arg = parts[1];
 
                 if(arg.equals("echo") || arg.equals("exit") || arg.equals("type")) {
-                    System.out.println(arg + " command is a shell builtin");
+                    System.out.println(arg + " is a shell builtin");
                 }
                 else {
                     System.out.println(arg + ": not found");
