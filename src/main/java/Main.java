@@ -36,7 +36,7 @@ public class Main {
                     if(file.exists() && file.isFile() && file.canExecute()) {
                         try {
                             List<String> cmd = new ArrayList<>();
-                            cmd.add(file.getAbsolutePath());
+                            cmd.add(command);
 
                             //add Args
                             for(int j = 0; j<rest.length; j++) {
@@ -44,6 +44,7 @@ public class Main {
                             }
 
                             ProcessBuilder pb = new ProcessBuilder(cmd);
+                            pb.directory(new File(path_command[i]));
                             pb.inheritIO();
 
                             Process p = pb.start();
