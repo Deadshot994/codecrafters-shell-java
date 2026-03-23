@@ -25,7 +25,41 @@ public class Main {
                 System.out.println(type(result));
             }
             else {
-                System.out.println(input + ": command not found");
+                String path_commands = System.getenv("PATH");
+                String[] path_command = path_commands.split(File.pathSeparator);
+
+                boolean found = false;
+
+                for(int i = 0; i<path_command.length; i++) {
+                    File file = new File(path_command[i], command);
+
+                    if(file.exists() && file.isFile() && file.canExecute()) {
+                        try {
+                            List<String> cmd = new ArrayList<>();
+                            cmd.add(file.getAbsolutePath());
+
+                            //add Args
+                            for(int j = 0; j<rest.length; j++) {
+                                cmd.add(rest[j]);
+                            }
+
+                            ProcessBuilder pb = new ProcessBuilder(cmd);
+                            pb.inheritIO();
+
+                            Process p = pb.start();
+                            p.waitFor();
+
+                            found = true;
+                            break;
+                        }
+                        catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                if (!found) {
+                    System.out.println(command + ": command not found");
+                }
             }
         }
 
@@ -35,7 +69,7 @@ public class Main {
     public static String type(String command) {
         String commands[] = {"exit", "echo", "type"};
         String path_commands = System.getenv("PATH");
-        String path_command[] = path_commands.split(":");
+        String path_command[] = path_commands.split(File.pathSeparator);;
 
         boolean isTrue = false;
 
