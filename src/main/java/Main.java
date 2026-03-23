@@ -27,12 +27,27 @@ public class Main {
                 System.out.println(type(result));
             }
             else if (command.equals("cd")) {
-                File dir = new File(result);
+                File dir;
 
-                if(dir.isAbsolute() && dir.exists() && dir.isDirectory()) {
-                    currentDir = dir.getAbsolutePath();
+                if(result.startsWith("/")) {
+                    // absolute path
+                    dir = new File(result);
                 }
                 else {
+                    // Relative Path
+                    dir = new File(currentDir, result);
+                }
+                try {
+                    File canonical = dir.getCanonicalFile();
+
+                    if(canonical.exists() && canonical.isDirectory()) {
+                        currentDir = canonical.getAbsolutePath();
+                    }
+                    else {
+                        System.out.println("cd: " + result + ": No such file or directory");
+                    }
+                }
+                catch (IOException e) {
                     System.out.println("cd: " + result + ": No such file or directory");
                 }
             }
