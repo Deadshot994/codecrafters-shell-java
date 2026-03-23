@@ -71,7 +71,7 @@ public class Main {
     }
 
     public static String type(String command) {
-        String commands[] = {"exit", "echo", "type"};
+        String commands[] = {"exit", "echo", "type", "pwd"};
         String path_commands = System.getenv("PATH");
         String path_command[] = path_commands.split(File.pathSeparator);;
 
