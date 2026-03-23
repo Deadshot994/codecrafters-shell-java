@@ -3,36 +3,33 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-
         Scanner scanner = new Scanner(System.in);
 
-        while(true) {
+        boolean xyz = true;
+        while (xyz) {
             System.out.print("$ ");
             String input = scanner.nextLine();
 
-            if(input.equals("exit")) {
-                break;
-            }
-            else if(input.startsWith("echo")) {
-                System.out.println(input.substring(5));
-            }
-            else if(input.startsWith("type")){
-                String[] parts = input.split(" ");
-                if(parts.length < 2) continue;
+            String words[] = input.split(" ");
+            String command = words[0];
+            String rest[] = Arrays.copyOfRange(words, 1, words.length);
+            String result = String.join(" ", rest);
 
-                String arg = parts[1];
-
-                if(arg.equals("echo") || arg.equals("exit") || arg.equals("type")) {
-                    System.out.println(arg + " is a shell builtin");
-                }
-                else {
-                    System.out.println(arg + ": not found");
-                }
+            if (Objects.equals(command, "exit")) {
+                xyz = false;
+            }
+            else if (Objects.equals(command, "echo")) {
+                System.out.println(result);
+            }
+            else if (command.equals("type")) {
+                System.out.println(type(result));
             }
             else {
                 System.out.println(input + ": command not found");
             }
         }
+
+        scanner.close();
     }
 
     public static String type(String command) {
