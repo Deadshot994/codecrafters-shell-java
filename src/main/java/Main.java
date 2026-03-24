@@ -130,16 +130,21 @@ public class Main {
     public static List<String> parseInput(String input) {
         List<String> result = new ArrayList<>();
         StringBuilder current = new StringBuilder();
-        boolean inQuotes = false;
+
+        boolean inSingleQuotes = false;
+        boolean inDoubleQuotes = false;
 
         for(int i = 0; i<input.length(); i++) {
             char c = input.charAt(i);
 
-            if(c == '\'') {
-                inQuotes = !inQuotes;
+            if (c == '\'' && !inDoubleQuotes) {
+                inSingleQuotes = !inSingleQuotes;
             }
-            else if(c == ' ' && !inQuotes){
-                if(current.length()>0) {
+            else if (c == '"' && !inSingleQuotes) {
+                inDoubleQuotes = !inDoubleQuotes;
+            }
+            else if (c == ' ' && !inSingleQuotes && !inDoubleQuotes) {
+                if (current.length() > 0) {
                     result.add(current.toString());
                     current.setLength(0);
                 }
