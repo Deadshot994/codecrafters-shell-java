@@ -137,32 +137,45 @@ public class Main {
         for (int i = 0; i < input.length(); i++) {
             char c = input.charAt(i);
 
-            // 🔥 BACKSLASH handling (outside quotes)
+            // 🔥 BACKSLASH handling
             if (c == '\\') {
                 if (!inSingleQuotes && !inDoubleQuotes) {
-                    // outside quotes (existing logic)
                     if (i + 1 < input.length()) {
                         current.append(input.charAt(i + 1));
                         i++;
                     }
                 }
                 else if (inDoubleQuotes) {
-                    // 🔥 inside double quotes
                     if (i + 1 < input.length()) {
                         char next = input.charAt(i + 1);
 
                         if (next == '"' || next == '\\') {
-                            current.append(next); // escape " or \
+                            current.append(next);
                             i++;
                         } else {
-                            current.append('\\'); // keep backslash
+                            current.append('\\');
                         }
                     }
                 }
                 else {
-                    // inside single quotes → treat literally
+                    // inside single quotes
                     current.append('\\');
                 }
+            }
+            else if (c == '\'' && !inDoubleQuotes) {
+                inSingleQuotes = !inSingleQuotes;
+            }
+            else if (c == '"' && !inSingleQuotes) {
+                inDoubleQuotes = !inDoubleQuotes;
+            }
+            else if (c == ' ' && !inSingleQuotes && !inDoubleQuotes) {
+                if (current.length() > 0) {
+                    result.add(current.toString());
+                    current.setLength(0);
+                }
+            }
+            else {
+                current.append(c);
             }
         }
 
