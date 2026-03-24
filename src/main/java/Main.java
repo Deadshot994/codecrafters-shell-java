@@ -134,10 +134,17 @@ public class Main {
         boolean inSingleQuotes = false;
         boolean inDoubleQuotes = false;
 
-        for(int i = 0; i<input.length(); i++) {
+        for (int i = 0; i < input.length(); i++) {
             char c = input.charAt(i);
 
-            if (c == '\'' && !inDoubleQuotes) {
+            // 🔥 BACKSLASH handling (outside quotes)
+            if (c == '\\' && !inSingleQuotes && !inDoubleQuotes) {
+                if (i + 1 < input.length()) {
+                    current.append(input.charAt(i + 1)); // take next char literally
+                    i++; // skip next char
+                }
+            }
+            else if (c == '\'' && !inDoubleQuotes) {
                 inSingleQuotes = !inSingleQuotes;
             }
             else if (c == '"' && !inSingleQuotes) {
@@ -153,9 +160,11 @@ public class Main {
                 current.append(c);
             }
         }
+
         if (current.length() > 0) {
             result.add(current.toString());
         }
+
         return result;
     }
 }
