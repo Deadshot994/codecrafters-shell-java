@@ -138,26 +138,31 @@ public class Main {
             char c = input.charAt(i);
 
             // 🔥 BACKSLASH handling (outside quotes)
-            if (c == '\\' && !inSingleQuotes && !inDoubleQuotes) {
-                if (i + 1 < input.length()) {
-                    current.append(input.charAt(i + 1)); // take next char literally
-                    i++; // skip next char
+            if (c == '\\') {
+                if (!inSingleQuotes && !inDoubleQuotes) {
+                    // outside quotes (existing logic)
+                    if (i + 1 < input.length()) {
+                        current.append(input.charAt(i + 1));
+                        i++;
+                    }
                 }
-            }
-            else if (c == '\'' && !inDoubleQuotes) {
-                inSingleQuotes = !inSingleQuotes;
-            }
-            else if (c == '"' && !inSingleQuotes) {
-                inDoubleQuotes = !inDoubleQuotes;
-            }
-            else if (c == ' ' && !inSingleQuotes && !inDoubleQuotes) {
-                if (current.length() > 0) {
-                    result.add(current.toString());
-                    current.setLength(0);
+                else if (inDoubleQuotes) {
+                    // 🔥 inside double quotes
+                    if (i + 1 < input.length()) {
+                        char next = input.charAt(i + 1);
+
+                        if (next == '"' || next == '\\') {
+                            current.append(next); // escape " or \
+                            i++;
+                        } else {
+                            current.append('\\'); // keep backslash
+                        }
+                    }
                 }
-            }
-            else {
-                current.append(c);
+                else {
+                    // inside single quotes → treat literally
+                    current.append('\\');
+                }
             }
         }
 
