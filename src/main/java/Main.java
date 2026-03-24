@@ -12,10 +12,13 @@ public class Main {
             System.out.print("$ ");
             String input = scanner.nextLine();
 
-            String words[] = input.split(" ");
-            String command = words[0];
-            String rest[] = Arrays.copyOfRange(words, 1, words.length);
-            String result = String.join(" ", rest);
+            List<String> tokens = parseInput(input);
+
+            if (tokens.size() == 0) continue;
+
+            String command = tokens.get(0);
+            List<String> restList = tokens.subList(1, tokens.size());
+            String result = String.join(" ", restList);
 
             if (Objects.equals(command, "exit")) {
                 xyz = false;
@@ -73,8 +76,8 @@ public class Main {
                             cmd.add(command);
 
                             //add Args
-                            for(int j = 0; j<rest.length; j++) {
-                                cmd.add(rest[j]);
+                            for (String arg : restList) {
+                                cmd.add(arg);
                             }
 
                             ProcessBuilder pb = new ProcessBuilder(cmd);
@@ -122,5 +125,32 @@ public class Main {
         }
 
         return command + ": not found";
+    }
+
+    public static List<String> parseInput(String input) {
+        List<String> result = new ArrayList<>();
+        StringBuilder current = new StringBuilder();
+        boolean inQuotes = false;
+
+        for(int i = 0; i<input.length(); i++) {
+            char c = input.charAt(i);
+
+            if(c == '\'') {
+                inQuotes = !inQuotes;
+            }
+            else if(c == ' ' && !inQuotes){
+                if(current.length()>0) {
+                    result.add(current.toString());
+                    current.setLength(0);
+                }
+            }
+            else {
+                current.append(c);
+            }
+        }
+        if (current.length() > 0) {
+            result.add(current.toString());
+        }
+        return result;
     }
 }
